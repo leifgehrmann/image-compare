@@ -1,0 +1,37 @@
+name: Tests
+
+on:
+  push:
+  pull_request:
+  schedule:
+    - cron: '0 6 * * 1'
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [16.x]
+    env:
+      NODE: ${{ matrix.node-version }}
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Run tests with cypress (which includes install, build, serve, test, and coverage)
+        uses: cypress-io/github-action@v2
+        env:
+          CYPRESS_IMAGE_COMPARE_HOST: http://localhost:5000/
+        with:
+          build: npm run build:test
+          start: npm run serve
+          command: npm run test:e2e
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v1
+        with:
+          env_vars: NODE
+          fail_ci_if_error: true
