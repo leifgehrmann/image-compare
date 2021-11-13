@@ -1,0 +1,9 @@
+node_modules
+.DS_Store
+.idea
+dist
+dist-ssr
+*.local
+.nyc_output
+coverage
+cypress/screenshots
