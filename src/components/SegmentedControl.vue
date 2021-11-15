@@ -5,6 +5,7 @@
           class="relative"
       >
         <div
+          ref="hockeyPuck"
           class="transition-position ease-out duration-300 transform absolute bg-white p-2 dark:bg-gray-700 rounded-lg shadow-lg"
           :class="{'scale-95': pressActive && mountedSelectedIndex === pressActiveIndex}"
           :style="{
@@ -95,19 +96,26 @@ export default defineComponent({
     mountedSelectedIndex: 0,
     pressActive: false,
     pressActiveIndex: 0,
+    resizeObserver: null as null|ResizeObserver,
   }),
   watch: {
-    expanded(): void {
+    selectedIndex(): void {
       this.mountedSelectedIndex = this.selectedIndex;
-    },
-    mountedExpanded(): void {
-      if (this.mountedSelectedIndex !== this.selectedIndex) {
-        this.$emit('update:selectedIndex', this.selectedIndex);
-      }
     },
   },
   mounted() {
     this.mountedSelectedIndex = this.selectedIndex;
+    this.resizeObserver = new ResizeObserver(entries => {
+      for (let entry of entries) {
+        const hockeyPuck = this.$refs.hockeyPuck as HTMLDivElement | null;
+        if (hockeyPuck === null) {
+          return
+        }
+        hockeyPuck.style.height = `${entry.contentRect.height}px`;
+      }
+    });
+
+    this.resizeObserver.observe(this.$refs.buttons);
   },
   computed: {
     optionWidth() {
@@ -122,8 +130,6 @@ export default defineComponent({
       const numberOfOptions = this.options.length
       const buttonWidthsToSubtract = `(${this.optionWidth} * (${numberOfOptions} - ${selectedOption}))`
       const gapsToSubtract = `(${this.gapWidth} * (${numberOfOptions} - ${selectedOption} - 1))`
-      console.log(buttonWidthsToSubtract);
-      console.log(gapsToSubtract);
       return `calc(100% - ${buttonWidthsToSubtract} - ${gapsToSubtract})`
     },
     selectedOptionTransformationOrigin() {
