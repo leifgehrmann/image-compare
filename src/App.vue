@@ -7,6 +7,9 @@
         @update:selected-index="selectedIndex = $event;"
       />
     </div>
+    <div class="w-full p-2">
+      Hello World
+    </div>
   </div>
 </template>
 
