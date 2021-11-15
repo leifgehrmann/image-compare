@@ -12,16 +12,16 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue';
-import SegmentedControl from "./components/SegmentedControl.vue";
+import SegmentedControl from './components/SegmentedControl.vue';
 
 export default defineComponent({
   name: 'App',
   components: {
-    SegmentedControl
+    SegmentedControl,
   },
   data: () => ({
     options: [
-      "Threshold Filter", 'Floyd-Steinberg', 'Custom'
+      'Threshold Filter', 'Floyd-Steinberg', 'Custom',
     ],
     selectedIndex: 0,
   }),
