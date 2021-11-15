@@ -162,7 +162,10 @@ export default defineComponent({
       });
     });
 
-    this.resizeObserver.observe(this.$refs.buttons);
+    const buttons = this.$refs.buttons as HTMLDivElement|null;
+    if (buttons !== null) {
+      this.resizeObserver.observe(buttons);
+    }
   },
   methods: {
     selectButton(index: number) {
