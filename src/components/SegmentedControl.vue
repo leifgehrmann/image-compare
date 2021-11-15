@@ -30,8 +30,8 @@
             <span
               class="mx-auto block w-0.5 bg-black dark:bg-white h-full rounded-lg transition-opacity ease-out duration-300"
               :class="{
-                'opacity-10 dark:opacity-20': !((index - 1 === this.mountedSelectedIndex) || (index === this.mountedSelectedIndex)),
-                'opacity-0': ((index - 1 === this.mountedSelectedIndex) || (index === this.mountedSelectedIndex))
+                'opacity-10 dark:opacity-20': !((index - 1 === mountedSelectedIndex) || (index === mountedSelectedIndex)),
+                'opacity-0': ((index - 1 === mountedSelectedIndex) || (index === mountedSelectedIndex))
               }"
             >
             </span>
