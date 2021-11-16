@@ -233,7 +233,7 @@ export default defineComponent({
       this.selectButton(Math.min(this.options.length - 1, this.mountedSelectedIndex + 1));
     },
     getPointFromEvent(event: TouchEvent | MouseEvent): Touch | MouseEvent {
-      if (event instanceof TouchEvent) {
+      if ('changedTouches' in event) {
         return event.changedTouches[0];
       }
       return event;
