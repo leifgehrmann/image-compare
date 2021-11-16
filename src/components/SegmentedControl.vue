@@ -178,7 +178,7 @@ export default defineComponent({
       const buttonIndex = this.getIndexOfButton(button);
       this.selectButton(buttonIndex);
     },
-    mouseDownCallback(event: MouseEvent) {
+    mouseDownCallback(event: MouseEvent | TouchEvent) {
       const point = this.getPointFromEvent(event);
       const buttonIndex = this.getIndexOfButtonAtPoint(point);
       if (buttonIndex === null) {
@@ -187,7 +187,7 @@ export default defineComponent({
       this.pressActive = true;
       this.pressActiveIndex = buttonIndex;
     },
-    mouseMoveCallback(event: MouseEvent) {
+    mouseMoveCallback(event: MouseEvent | TouchEvent) {
       if (!this.pressActive) {
         return;
       }
