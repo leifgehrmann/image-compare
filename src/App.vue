@@ -24,7 +24,7 @@ export default defineComponent({
   },
   data: () => ({
     options: [
-      'Threshold Filter', 'Floyd-Steinberg', 'Custom', 'LEGO',
+      'Threshold Filter', 'Floyd-Steinberg', 'Kernel Filter', 'LEGO',
     ],
     selectedIndex: 0,
   }),

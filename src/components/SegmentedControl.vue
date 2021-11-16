@@ -151,14 +151,16 @@ export default defineComponent({
       this.resizeObserver = new ResizeObserver(this.buttonsResizeCallback);
       this.resizeObserver.observe(buttons);
 
+      // Handle mouse-movements. We attach listeners to the document to allow
+      // tracking changes outside of the button section.
       buttons.addEventListener('mousedown', this.mouseDownCallback);
-      buttons.addEventListener('mousemove', this.mouseMoveCallback);
-      buttons.addEventListener('mouseup', this.mouseUpCallback);
-      buttons.addEventListener('mouseleave', this.mouseCancelCallback);
+      document.addEventListener('mousemove', this.mouseMoveCallback);
+      document.addEventListener('mouseup', this.mouseUpCallback);
+
+      // Handle touch-movements.
       buttons.addEventListener('touchstart', this.touchStartCallback);
       buttons.addEventListener('touchmove', this.touchMoveCallback);
-      buttons.addEventListener('touchend', this.touchEndCallback);
-      buttons.addEventListener('touchcancel', this.touchCancelCallback);
+      buttons.addEventListener('touchend', this.mouseUpCallback);
     }
   },
   methods: {
@@ -177,7 +179,8 @@ export default defineComponent({
       this.selectButton(buttonIndex);
     },
     mouseDownCallback(event: MouseEvent) {
-      const buttonIndex = this.getIndexOfButtonAtPoint(event);
+      const point = this.getPointFromEvent(event);
+      const buttonIndex = this.getIndexOfButtonAtPoint(point);
       if (buttonIndex === null) {
         return;
       }
@@ -188,7 +191,8 @@ export default defineComponent({
       if (!this.pressActive) {
         return;
       }
-      const buttonIndex = this.getIndexOfButtonAtPoint(event);
+      const point = this.getPointFromEvent(event);
+      const buttonIndex = this.getIndexOfButtonAtPoint(point);
       if (buttonIndex === null) {
         return;
       }
@@ -200,42 +204,9 @@ export default defineComponent({
         this.pressActiveIndex = null;
       }
     },
-    mouseUpCallback(event: MouseEvent) {
-      const buttonIndex = this.getIndexOfButtonAtPoint(event);
-      if (buttonIndex === null) {
-        return;
-      }
-      this.selectButton(buttonIndex);
-      this.pressActive = false;
-    },
-    mouseCancelCallback() {
-      this.pressActive = false;
-    },
-    touchStartCallback(event: TouchEvent) {
-      event.preventDefault();
-      const buttonIndex = this.getIndexOfButtonAtPoint(event.touches[0]);
-      if (buttonIndex === null) {
-        return;
-      }
-      this.pressActive = true;
-      this.pressActiveIndex = buttonIndex;
-    },
-    touchMoveCallback(event: TouchEvent) {
-      event.preventDefault();
-      const buttonIndex = this.getIndexOfButtonAtPoint(event.changedTouches[0]);
-      if (buttonIndex === null) {
-        return;
-      }
-      if (this.pressActiveIndex === this.mountedSelectedIndex) {
-        this.selectButton(buttonIndex);
-      } else if (this.mountedSelectedIndex !== buttonIndex && buttonIndex != null) {
-        this.pressActiveIndex = buttonIndex;
-      } else {
-        this.pressActiveIndex = null;
-      }
-    },
-    touchEndCallback(event: TouchEvent) {
-      const buttonIndex = this.getIndexOfButtonAtPoint(event.changedTouches[0]);
+    mouseUpCallback(event: MouseEvent | TouchEvent) {
+      const point = this.getPointFromEvent(event);
+      const buttonIndex = this.getIndexOfButtonAtPoint(point);
       if (buttonIndex === null) {
         this.pressActive = false;
         return;
@@ -243,9 +214,13 @@ export default defineComponent({
       this.selectButton(buttonIndex);
       this.pressActive = false;
     },
-    touchCancelCallback() {
-      this.pressActive = false;
-      this.pressActiveIndex = null;
+    touchStartCallback(event: TouchEvent) {
+      event.preventDefault();
+      this.mouseDownCallback(event);
+    },
+    touchMoveCallback(event: TouchEvent) {
+      event.preventDefault();
+      this.mouseMoveCallback(event);
     },
     selectButton(index: number) {
       this.mountedSelectedIndex = index;
@@ -257,15 +232,26 @@ export default defineComponent({
     selectButtonToTheRight() {
       this.selectButton(Math.min(this.options.length - 1, this.mountedSelectedIndex + 1));
     },
+    getPointFromEvent(event: TouchEvent | MouseEvent): Touch | MouseEvent {
+      if (event instanceof TouchEvent) {
+        return event.changedTouches[0];
+      }
+      return event;
+    },
     getIndexOfButtonAtPoint(point: Touch | MouseEvent): number | null {
-      const elementsFromPoint = document
-        .elementsFromPoint(point.clientX, point.clientY)
-        .filter((element) => element.tagName === 'BUTTON');
-      if (elementsFromPoint.length === 0) {
+      const buttons = this.$refs.buttons as HTMLDivElement;
+      const buttonIndex = Array.from(buttons.querySelectorAll('button'))
+        .findIndex((button) => {
+          const rect = button.getBoundingClientRect();
+          return (
+            (point.clientX >= rect.x)
+            && (point.clientX <= rect.x + rect.width)
+          );
+        });
+      if (buttonIndex === -1) {
         return null;
       }
-      const button = elementsFromPoint[0] as HTMLButtonElement;
-      return this.getIndexOfButton(button);
+      return buttonIndex;
     },
     getIndexOfButton(button: HTMLButtonElement) {
       const buttons = button.parentNode;
