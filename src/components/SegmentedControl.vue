@@ -284,4 +284,17 @@ button {
   -webkit-touch-callout: none;
   touch-action: manipulation;
 }
+button {
+  font-size: 11px;
+}
+@media (min-width: 19em) {
+  button {
+    font-size: 14px;
+  }
+}
+@media (min-width: 38em) {
+  html {
+    font-size: 20px;
+  }
+}
 </style>
