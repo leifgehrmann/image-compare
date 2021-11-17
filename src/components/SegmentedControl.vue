@@ -6,8 +6,8 @@
       >
         <div
           class="
-            transition-position ease-out duration-300
             transform
+            transition-transform ease-out duration-200
           "
           :style="{
             '--tw-translate-x': selectedOptionPositionLeft,
@@ -16,18 +16,17 @@
           <div
             ref="hockeyPuck"
             class="
-              transition-position ease-out duration-300
-              transform absolute
+              p-2
+              absolute
               bg-white dark:bg-gray-700
               rounded-lg
               shadow-lg
-              p-2
+              transform
+              transition-transform ease-out duration-200
             "
-            style="-webkit-backface-visibility: hidden;"
             :class="{'scale-95': pressActive && mountedSelectedIndex === pressActiveIndex}"
             :style="{
               width: optionWidth,
-              // left: selectedOptionPositionLeft,
               'transform-origin': `${selectedOptionTransformationOrigin} center`
             }"
           />

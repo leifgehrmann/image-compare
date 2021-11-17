@@ -19,9 +19,6 @@ module.exports = {
           900: '#212121',
         },
       },
-      transitionProperty: {
-        position: 'top, left, transform',
-      },
     },
   },
   variants: {
