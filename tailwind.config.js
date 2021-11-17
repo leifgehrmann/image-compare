@@ -5,6 +5,16 @@ module.exports = {
     fontFamily: {
       sans: ['ui-rounded', 'Helvetica', 'sans-serif'],
     },
+    opacity: {
+      0: '0.00',
+      5: '0.05',
+      10: '0.10',
+      15: '0.15',
+      20: '0.20',
+      50: '0.50',
+      70: '0.70',
+      100: '1.00',
+    },
     extend: {
       colors: {
         gray: {

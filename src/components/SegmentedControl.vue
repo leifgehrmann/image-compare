@@ -1,6 +1,16 @@
 <template>
   <div>
-    <div class="bg-gray-200 dark:bg-gray-800 p-1 rounded-xl relative text-sm overflow-hidden">
+    <div
+      class="
+        p-1
+        relative
+        bg-black dark:bg-white
+        bg-opacity-5 dark:bg-opacity-15
+        rounded-xl
+        text-sm
+        overflow-hidden
+      "
+    >
       <div
         class="relative"
       >
@@ -18,7 +28,8 @@
             class="
               p-2
               absolute
-              bg-white dark:bg-gray-700
+              bg-white
+              dark:bg-opacity-20
               rounded-lg
               shadow-lg
               transform
