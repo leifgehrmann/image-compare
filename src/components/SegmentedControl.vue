@@ -5,22 +5,33 @@
         class="relative"
       >
         <div
-          ref="hockeyPuck"
           class="
             transition-position ease-out duration-300
-            transform absolute
-            bg-white dark:bg-gray-700
-            rounded-lg
-            shadow-lg
-            p-2
+            transform
           "
-          :class="{'scale-95': pressActive && mountedSelectedIndex === pressActiveIndex}"
           :style="{
-            width: optionWidth,
-            left: selectedOptionPositionLeft,
-            'transform-origin': `${selectedOptionTransformationOrigin} center`
+            '--tw-translate-x': selectedOptionPositionLeft,
           }"
-        />
+        >
+          <div
+            ref="hockeyPuck"
+            class="
+              transition-position ease-out duration-300
+              transform absolute
+              bg-white dark:bg-gray-700
+              rounded-lg
+              shadow-lg
+              p-2
+            "
+            style="-webkit-backface-visibility: hidden;"
+            :class="{'scale-95': pressActive && mountedSelectedIndex === pressActiveIndex}"
+            :style="{
+              width: optionWidth,
+              // left: selectedOptionPositionLeft,
+              'transform-origin': `${selectedOptionTransformationOrigin} center`
+            }"
+          />
+        </div>
       </div>
       <div
         ref="buttons"
