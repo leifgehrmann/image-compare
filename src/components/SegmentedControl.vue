@@ -66,7 +66,7 @@
           <button
             v-if="item !== null"
             class="
-              p-2 rounded-lg
+              py-2 rounded-lg
               overflow-hidden overflow-ellipsis
               transform transition ease-out duration-300
             "
