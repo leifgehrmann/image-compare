@@ -215,6 +215,9 @@ export default defineComponent({
       }
     },
     mouseUpCallback(event: MouseEvent | TouchEvent) {
+      if (!this.pressActive) {
+        return;
+      }
       const point = this.getPointFromEvent(event);
       const buttonIndex = this.getIndexOfButtonAtPoint(point);
       if (buttonIndex === null) {
@@ -249,7 +252,10 @@ export default defineComponent({
       return event;
     },
     getIndexOfButtonAtPoint(point: Touch | MouseEvent): number | null {
-      const buttons = this.$refs.buttons as HTMLDivElement;
+      const buttons = this.$refs.buttons as HTMLDivElement | null;
+      if (buttons === null) {
+        return null;
+      }
       const buttonIndex = Array.from(buttons.querySelectorAll('button'))
         .findIndex((button) => {
           const rect = button.getBoundingClientRect();
