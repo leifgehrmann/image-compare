@@ -17,7 +17,7 @@
         <div
           class="
             transform
-            transition-transform ease-out duration-200
+            transition-transform ease-out duration-300
           "
           :style="{
             '--tw-translate-x': selectedOptionPositionLeft,
@@ -33,7 +33,7 @@
               rounded-lg
               shadow-lg
               transform
-              transition-transform ease-out duration-200
+              transition-transform ease-out duration-300
             "
             :class="{'scale-95': pressActive && mountedSelectedIndex === pressActiveIndex}"
             :style="{
