@@ -107,6 +107,15 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 
+// vue-tsc requires that we define the tailwind CSS property that we use in this component
+// to be in the CSSProperties interface. This module declaration accomplishes it quite neatly.
+// See https://github.com/johnsoncodehk/vue-tsc/issues/19
+declare module '@vue/runtime-dom' {
+  export interface CSSProperties {
+    '--tw-translate-x'?: string
+  }
+}
+
 export default defineComponent({
   name: 'SegmentedControl',
   props: {
