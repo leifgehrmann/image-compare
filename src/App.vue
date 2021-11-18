@@ -1,15 +1,8 @@
 <template>
   <div
     class="w-screen h-screen p-2 grid gap-2 grid-cols-1 grid-rows-2"
-    style="grid-template-rows: min-content 1fr;"
+    style="grid-template-rows: 1fr min-content;"
   >
-    <div>
-      <segmented-control
-        :options="labels"
-        :selected-index="selectedIndex"
-        @update:selected-index="selectedIndex = $event;"
-      />
-    </div>
     <div class="overflow-auto">
       <img
         :src="selectedUrl"
@@ -17,6 +10,13 @@
         class="object-contain w-full h-full"
         style="image-rendering: pixelated;"
       >
+    </div>
+    <div>
+      <segmented-control
+        :options="labels"
+        :selected-index="selectedIndex"
+        @update:selected-index="selectedIndex = $event;"
+      />
     </div>
   </div>
 </template>
