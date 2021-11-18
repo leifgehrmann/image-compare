@@ -1,14 +1,20 @@
 <template>
-  <div>
-    <div class="w-full p-2">
+  <div
+    class="w-screen h-screen p-2 grid gap-2 grid-cols-1 grid-rows-2"
+    style="grid-template-rows: min-content 1fr;"
+  >
+    <div>
       <segmented-control
         :options="labels"
         :selected-index="selectedIndex"
         @update:selected-index="selectedIndex = $event;"
       />
     </div>
-    <div class="w-full p-2">
-      Hello World
+    <div class="overflow-auto">
+      <img
+        class="object-contain w-full h-full"
+        style="image-rendering: pixelated;"
+      >
     </div>
   </div>
 </template>
