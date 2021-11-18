@@ -12,6 +12,8 @@
     </div>
     <div class="overflow-auto">
       <img
+        :src="selectedUrl"
+        :alt="selectedLabel"
         class="object-contain w-full h-full"
         style="image-rendering: pixelated;"
       >
@@ -25,6 +27,7 @@ import SegmentedControl from './components/SegmentedControl.vue';
 
 export interface Option {
   label: string;
+  url: string;
 }
 
 export default defineComponent({
@@ -36,15 +39,19 @@ export default defineComponent({
     options: [
       {
         label: 'Threshold Filter',
+        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_threshold.png',
       },
       {
         label: 'Floyd-Steinberg',
+        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_dither.png',
       },
       {
         label: 'Custom Kernel Filter',
+        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_custom.png',
       },
       {
         label: 'LEGO',
+        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_lego.png',
       },
     ] as Option[],
     selectedIndex: 0,
@@ -52,6 +59,12 @@ export default defineComponent({
   computed: {
     labels(): string[] {
       return this.options.map((option) => option.label);
+    },
+    selectedLabel(): string {
+      return this.options[this.selectedIndex].label;
+    },
+    selectedUrl(): string {
+      return this.options[this.selectedIndex].url;
     },
   },
 });
