@@ -2,7 +2,7 @@
   <div>
     <div class="w-full p-2">
       <segmented-control
-        :options="options"
+        :options="labels"
         :selected-index="selectedIndex"
         @update:selected-index="selectedIndex = $event;"
       />
@@ -17,6 +17,10 @@
 import { defineComponent } from 'vue';
 import SegmentedControl from './components/SegmentedControl.vue';
 
+export interface Option {
+  label: string;
+}
+
 export default defineComponent({
   name: 'App',
   components: {
@@ -24,9 +28,25 @@ export default defineComponent({
   },
   data: () => ({
     options: [
-      'Threshold Filter', 'Floyd-Steinberg', 'Kernel Filter', 'LEGO',
-    ],
+      {
+        label: 'Threshold Filter',
+      },
+      {
+        label: 'Floyd-Steinberg',
+      },
+      {
+        label: 'Custom Kernel Filter',
+      },
+      {
+        label: 'LEGO',
+      },
+    ] as Option[],
     selectedIndex: 0,
   }),
+  computed: {
+    labels(): string[] {
+      return this.options.map((option) => option.label);
+    },
+  },
 });
 </script>
