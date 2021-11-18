@@ -175,7 +175,7 @@ export default defineComponent({
     },
     mountedSelectedIndex(): void {
       this.$emit('update:selectedIndex', this.mountedSelectedIndex);
-    }
+    },
   },
   mounted() {
     this.mountedSelectedIndex = this.selectedIndex;
