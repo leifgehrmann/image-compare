@@ -1,13 +1,17 @@
 <template>
   <div
-    class="w-screen h-screen p-2 grid gap-2 grid-cols-1 grid-rows-2"
-    style="grid-template-rows: 1fr min-content;"
+    class="p-2 grid gap-2 grid-cols-1 grid-rows-2"
+    style="
+      grid-template-rows: 1fr min-content;
+      height: var(--vh);
+    "
   >
-    <div class="overflow-auto">
+    <div>
       <img
         :src="selectedUrl"
         :alt="selectedLabel"
-        class="object-contain w-full h-full"
+        :title="selectedLabel"
+        class="rounded shadow-xl"
         style="image-rendering: pixelated;"
       >
     </div>
@@ -65,6 +69,20 @@ export default defineComponent({
     },
     selectedUrl(): string {
       return this.options[this.selectedIndex].url;
+    },
+  },
+  mounted() {
+    this.setupViewportResizer();
+  },
+  methods: {
+    setupViewportResizer() {
+      const setVh = () => {
+        const vh = window.innerHeight;
+        document.documentElement.style.setProperty('--vh', `${vh}px`);
+      };
+
+      window.addEventListener('load', setVh);
+      window.addEventListener('resize', setVh);
     },
   },
 });
