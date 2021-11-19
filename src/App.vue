@@ -7,13 +7,10 @@
     "
   >
     <div>
-      <img
-        :src="selectedUrl"
-        :alt="selectedLabel"
+      <image-container
+        :url="selectedUrl"
         :title="selectedLabel"
-        class="rounded shadow-xl"
-        style="image-rendering: pixelated;"
-      >
+      />
     </div>
     <div>
       <segmented-control
@@ -28,6 +25,7 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SegmentedControl from './components/SegmentedControl.vue';
+import ImageContainer from './components/ImageContainer.vue';
 
 export interface Option {
   label: string;
@@ -37,6 +35,7 @@ export interface Option {
 export default defineComponent({
   name: 'App',
   components: {
+    ImageContainer,
     SegmentedControl,
   },
   data: () => ({
