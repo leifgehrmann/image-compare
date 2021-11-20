@@ -8,7 +8,7 @@
       :src="url"
       :alt="title"
       :title="title"
-      class="rounded shadow-xl absolute"
+      class="rounded shadow-md absolute"
       style="image-rendering: pixelated;"
       @load="onImageLoadCallback"
     >
