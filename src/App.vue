@@ -78,7 +78,14 @@ export default defineComponent({
   },
   methods: {
     async loadConfig(): Promise<void> {
-      this.options = [];
+      const configUrlEncoded = window.location.hash.substring(1);
+      const configUrl = decodeURIComponent(configUrlEncoded);
+      try {
+        const config = await fetch(configUrl).then((response) => response.json());
+        this.options = config.options;
+      } catch (e) {
+        /* Do nothing, a error message will display if no options were loaded. */
+      }
       this.isLoadingConfiguration = false;
     },
     setupViewportResizer() {
