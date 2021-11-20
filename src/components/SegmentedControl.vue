@@ -180,28 +180,29 @@ export default defineComponent({
   mounted() {
     this.mountedSelectedIndex = this.selectedIndex;
     const buttons = this.$refs.buttons as HTMLDivElement|null;
-    if (buttons !== null) {
-      this.resizeObserver = new ResizeObserver(this.buttonsResizeCallback);
-      this.resizeObserver.observe(buttons);
-
-      // Handle mouse-movements. We attach listeners to the document to allow
-      // tracking changes outside of the button section.
-      buttons.addEventListener('mousedown', this.mouseDownCallback);
-      document.addEventListener('mousemove', this.mouseMoveCallback);
-      document.addEventListener('mouseup', this.mouseUpCallback);
-
-      // Handle touch-movements.
-      buttons.addEventListener('touchstart', this.touchStartCallback);
-      buttons.addEventListener('touchmove', this.touchMoveCallback);
-      buttons.addEventListener('touchend', this.mouseUpCallback);
+    if (buttons === null) {
+      throw new Error('Invalid state: Button container does not exist');
     }
+    this.resizeObserver = new ResizeObserver(this.buttonsResizeCallback);
+    this.resizeObserver.observe(buttons);
+
+    // Handle mouse-movements. We attach listeners to the document to allow
+    // tracking changes outside of the button section.
+    buttons.addEventListener('mousedown', this.mouseDownCallback);
+    document.addEventListener('mousemove', this.mouseMoveCallback);
+    document.addEventListener('mouseup', this.mouseUpCallback);
+
+    // Handle touch-movements.
+    buttons.addEventListener('touchstart', this.touchStartCallback);
+    buttons.addEventListener('touchmove', this.touchMoveCallback);
+    buttons.addEventListener('touchend', this.mouseUpCallback);
   },
   methods: {
     buttonsResizeCallback(entries: ResizeObserverEntry[]) {
       entries.forEach((entry) => {
         const hockeyPuck = this.$refs.hockeyPuck as HTMLDivElement | null;
         if (hockeyPuck === null) {
-          return;
+          throw new Error('Invalid state: hockeyPuck does not exist');
         }
         hockeyPuck.style.height = `${entry.contentRect.height}px`;
       });
@@ -277,7 +278,7 @@ export default defineComponent({
     getIndexOfButtonAtPoint(point: Touch | MouseEvent): number | null {
       const buttons = this.$refs.buttons as HTMLDivElement | null;
       if (buttons === null) {
-        return null;
+        throw new Error('Invalid state: Button container does not exist');
       }
       const buttonIndex = Array.from(buttons.querySelectorAll('button'))
         .findIndex((button) => {

@@ -32,8 +32,7 @@ export default defineComponent({
   },
   mounted() {
     const containerElement = this.$refs.container as HTMLDivElement | null;
-    const imageElement = this.$refs.image as HTMLImageElement | null;
-    if (containerElement !== null && imageElement !== null) {
+    if (containerElement !== null) {
       new ResizeObserver(this.onContainerResizeCallback).observe(containerElement);
     }
   },
@@ -46,14 +45,14 @@ export default defineComponent({
     onImageLoadCallback() {
       const containerElement = this.$refs.container as HTMLDivElement | null;
       if (containerElement === null) {
-        return;
+        throw new Error('Invalid State: Tried to get container but it does not exist');
       }
       this.resizeImageToFitRect(containerElement.getBoundingClientRect());
     },
     resizeImageToFitRect(rect: DOMRectReadOnly) {
       const imageElement = this.$refs.image as HTMLImageElement | null;
       if (imageElement === null) {
-        return;
+        throw new Error('Invalid State: Tried to get image but it does not exist');
       }
 
       const imageRatio = imageElement.naturalWidth / imageElement.naturalHeight;
@@ -87,7 +86,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-
-</style>

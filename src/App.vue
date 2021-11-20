@@ -32,7 +32,7 @@
       >🤕</span>
     </h1>
     <p class="p-2 text-xl">
-      Failed to Load Configuration
+      Failed to load configuration
     </p>
   </div>
 </template>
