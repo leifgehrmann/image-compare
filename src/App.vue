@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="optionsHaveLoaded"
     class="p-2 grid gap-2 grid-cols-1 grid-rows-2"
     style="
       grid-template-rows: 1fr min-content;
@@ -20,6 +21,20 @@
       />
     </div>
   </div>
+  <div
+    v-else-if="!isLoadingConfiguration"
+    class="p-2 text-center"
+  >
+    <h1 class="p-2 text-5xl">
+      <span
+        role="img"
+        aria-label="Damaged"
+      >🤕</span>
+    </h1>
+    <p class="p-2 text-xl">
+      Failed to Load Configuration
+    </p>
+  </div>
 </template>
 
 <script lang="ts">
@@ -39,27 +54,14 @@ export default defineComponent({
     SegmentedControl,
   },
   data: () => ({
-    options: [
-      {
-        label: 'Threshold Filter',
-        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_threshold.png',
-      },
-      {
-        label: 'Floyd-Steinberg',
-        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_dither.png',
-      },
-      {
-        label: 'Custom Kernel Filter',
-        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_custom.png',
-      },
-      {
-        label: 'LEGO',
-        url: 'https://assets.leifgehrmann.com/posts/2021-12-01/land_lego.png',
-      },
-    ] as Option[],
+    options: [] as Option[],
     selectedIndex: 0,
+    isLoadingConfiguration: true,
   }),
   computed: {
+    optionsHaveLoaded(): boolean {
+      return this.options.length > 0;
+    },
     labels(): string[] {
       return this.options.map((option) => option.label);
     },
@@ -72,8 +74,13 @@ export default defineComponent({
   },
   mounted() {
     this.setupViewportResizer();
+    this.loadConfig();
   },
   methods: {
+    async loadConfig(): Promise<void> {
+      this.options = [];
+      this.isLoadingConfiguration = false;
+    },
     setupViewportResizer() {
       const setVh = () => {
         const vh = window.innerHeight;
