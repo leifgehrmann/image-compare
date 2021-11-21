@@ -5,7 +5,9 @@
 
 A single-page web application for easily comparing two or more images.
 
+## Example
 
+* [French Flags](https://image-compare.leifgehrmann.com/#https://image-compare.leifgehrmann.com/example/config-www.json)
 
 ## Installing the app
 
