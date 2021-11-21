@@ -160,7 +160,7 @@ describe('image-compare', () => {
   describe('configuration load failures', () => {
     beforeEach(() => {
       cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
-      cy.visit(getHostUrlWithConfig('error'));
+      cy.visit(getHost());
     });
     it('displays a message saying the configuration could not be loaded', () => {
       cy.contains('Failed to load configuration').should('have.length', 1);
