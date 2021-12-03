@@ -179,23 +179,20 @@ export default defineComponent({
   },
   mounted() {
     this.mountedSelectedIndex = this.selectedIndex;
-    const buttons = this.$refs.buttons as HTMLDivElement|null;
-    if (buttons === null) {
-      throw new Error('Invalid state: Button container does not exist');
-    }
+    const buttonsContainer = this.getButtonsContainer();
     this.resizeObserver = new ResizeObserver(this.buttonsResizeCallback);
-    this.resizeObserver.observe(buttons);
+    this.resizeObserver.observe(buttonsContainer);
 
     // Handle mouse-movements. We attach listeners to the document to allow
     // tracking changes outside of the button section.
-    buttons.addEventListener('mousedown', this.mouseDownCallback);
+    buttonsContainer.addEventListener('mousedown', this.mouseDownCallback);
     document.addEventListener('mousemove', this.mouseMoveCallback);
     document.addEventListener('mouseup', this.mouseUpCallback);
 
     // Handle touch-movements.
-    buttons.addEventListener('touchstart', this.touchStartCallback);
-    buttons.addEventListener('touchmove', this.touchMoveCallback);
-    buttons.addEventListener('touchend', this.mouseUpCallback);
+    buttonsContainer.addEventListener('touchstart', this.touchStartCallback);
+    buttonsContainer.addEventListener('touchmove', this.touchMoveCallback);
+    buttonsContainer.addEventListener('touchend', this.mouseUpCallback);
   },
   methods: {
     buttonsResizeCallback(entries: ResizeObserverEntry[]) {
@@ -265,9 +262,11 @@ export default defineComponent({
     },
     selectButtonToTheLeft() {
       this.selectButton(Math.max(0, this.mountedSelectedIndex - 1));
+      this.getButtons()[this.mountedSelectedIndex].focus();
     },
     selectButtonToTheRight() {
       this.selectButton(Math.min(this.options.length - 1, this.mountedSelectedIndex + 1));
+      this.getButtons()[this.mountedSelectedIndex].focus();
     },
     getPointFromEvent(event: TouchEvent | MouseEvent): Touch | MouseEvent {
       if ('changedTouches' in event) {
@@ -276,11 +275,7 @@ export default defineComponent({
       return event;
     },
     getIndexOfButtonAtPoint(point: Touch | MouseEvent): number | null {
-      const buttons = this.$refs.buttons as HTMLDivElement | null;
-      if (buttons === null) {
-        throw new Error('Invalid state: Button container does not exist');
-      }
-      const buttonIndex = Array.from(buttons.querySelectorAll('button'))
+      const buttonIndex = this.getButtons()
         .findIndex((button) => {
           const rect = button.getBoundingClientRect();
           return (
@@ -294,11 +289,17 @@ export default defineComponent({
       return buttonIndex;
     },
     getIndexOfButton(button: HTMLButtonElement) {
-      const buttons = button.parentNode;
+      return this.getButtons().indexOf(button);
+    },
+    getButtonsContainer() {
+      const buttons = this.$refs.buttons as HTMLDivElement | null;
       if (buttons === null) {
-        throw new Error('Invalid state: Tried to get index of button without a parent');
+        throw new Error('Invalid state: Button container does not exist');
       }
-      return Array.from(buttons.querySelectorAll('button')).indexOf(button);
+      return buttons;
+    },
+    getButtons() {
+      return Array.from(this.getButtonsContainer().querySelectorAll('button'));
     },
   },
 });
