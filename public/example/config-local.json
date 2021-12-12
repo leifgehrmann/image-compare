@@ -1,0 +1,20 @@
+{
+  "options": [
+    {
+      "label": "Dark Variant",
+      "url": "/example/dark.png"
+    },
+    {
+      "label": "Light Variant",
+      "url": "/example/light.png"
+    },
+    {
+      "label": "First Republic",
+      "url": "/example/first-republic.png"
+    },
+    {
+      "label": "Second Republic",
+      "url": "/example/second-republic.png"
+    }
+  ]
+}
