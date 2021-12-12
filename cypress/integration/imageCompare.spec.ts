@@ -8,14 +8,7 @@ function getHost(): string {
 
 function getConfigUrl(): string {
   const host = getHost();
-  if (host.indexOf('3000') !== -1) {
-    return `${host}example/config-local-3000.json`;
-  }
-  if (host.indexOf('5000') !== -1) {
-    return `${host}example/config-local-5000.json`;
-  }
-  // Sorry for the inconvenience if you run into this :(
-  throw new Error('Only localhost ports 3000 and 5000 are supported for running tests.');
+  return `${host}example/config-local.json`;
 }
 
 function getHostUrlWithConfig(config: string): string {
@@ -24,8 +17,7 @@ function getHostUrlWithConfig(config: string): string {
 }
 
 function getFullImagePath(image: string): string {
-  const host = getHost();
-  return `${host}${image}`;
+  return `/${image}`;
 }
 
 function resolveElement(elements: JQuery): HTMLElement {
