@@ -6,11 +6,6 @@ function getHost(): string {
   return host;
 }
 
-function getConfigUrl(): string {
-  const host = getHost();
-  return `${host}example/config-local.json`;
-}
-
 function getHostUrlWithConfig(config: string): string {
   const host = getHost();
   return `${host}#${config}`;
@@ -69,7 +64,9 @@ describe('image-compare', () => {
   describe('configuration loads successfully', () => {
     beforeEach(() => {
       cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
-      cy.visit(getHostUrlWithConfig(getConfigUrl()));
+      const host = getHost();
+      const configUrl = `${host}example/config-local.json`;
+      cy.visit(getHostUrlWithConfig(configUrl));
     });
 
     describe('segmented controls', () => {
@@ -147,6 +144,14 @@ describe('image-compare', () => {
           );
         });
       });
+    });
+  });
+  describe('configuration loads successfully with inavlid images', () => {
+    beforeEach(() => {
+      cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
+      const host = getHost();
+      const configUrl = `${host}example/config-invalid.json`;
+      cy.visit(getHostUrlWithConfig(configUrl));
     });
   });
   describe('configuration load failures', () => {
