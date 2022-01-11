@@ -170,8 +170,8 @@ describe('image-compare', () => {
       cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
       cy.visit(`${getHost()}example/iframe.html`);
     });
-    describe('iframe loads segmented controls load with image', () => {
-      it('shows four buttons in the correct selection with the correct image', () => {
+    describe('iframe loads segmented controls', () => {
+      it('shows four buttons', () => {
         cy.get('iframe').then((iframe) => {
           const iframeBody = iframe.contents().find('body');
           cy.wrap(iframeBody).find('button').should('have.length', 4);
