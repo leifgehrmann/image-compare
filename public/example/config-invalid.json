@@ -1,0 +1,12 @@
+{
+  "options": [
+    {
+      "label": "A",
+      "url": "/example/ceci-nest-pas-une-pic.png"
+    },
+    {
+      "label": "B",
+      "url": "/example/ceci-nest-pas-une-pic.png"
+    }
+  ]
+}

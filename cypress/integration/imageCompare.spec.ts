@@ -6,11 +6,6 @@ function getHost(): string {
   return host;
 }
 
-function getConfigUrl(): string {
-  const host = getHost();
-  return `${host}example/config-local.json`;
-}
-
 function getHostUrlWithConfig(config: string): string {
   const host = getHost();
   return `${host}#${config}`;
@@ -69,7 +64,9 @@ describe('image-compare', () => {
   describe('configuration loads successfully', () => {
     beforeEach(() => {
       cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
-      cy.visit(getHostUrlWithConfig(getConfigUrl()));
+      const host = getHost();
+      const configUrl = `${host}example/config-local.json`;
+      cy.visit(getHostUrlWithConfig(configUrl));
     });
 
     describe('segmented controls', () => {
@@ -145,6 +142,39 @@ describe('image-compare', () => {
               cy.contains('Dark Variant').click();
             },
           );
+        });
+      });
+    });
+  });
+  describe('configuration loads successfully with invalid images', () => {
+    beforeEach(() => {
+      cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
+      const host = getHost();
+      const configUrl = `${host}example/config-invalid.json`;
+      cy.visit(getHostUrlWithConfig(configUrl));
+    });
+    describe('segmented controls with invalid image', () => {
+      it('shows two buttons in the correct selection with the correct image', () => {
+        cy.get('button').should('have.length', 2);
+        cy.get('button').eq(0).should('have.text', 'A');
+        cy.get('button').eq(1).should('have.text', 'B');
+        cy.get('button span.opacity-100').should('have.length', 1);
+        cy.get('button span.opacity-70').should('have.length', 1);
+        const imageUrl = getFullImagePath('example/ceci-nest-pas-une-pic.png');
+        cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
+      });
+    });
+  });
+  describe('app loads correctly in an iframe', () => {
+    beforeEach(() => {
+      cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
+      cy.visit(`${getHost()}example/iframe.html`);
+    });
+    describe('iframe loads segmented controls', () => {
+      it('shows four buttons', () => {
+        cy.get('iframe').then((iframe) => {
+          const iframeBody = iframe.contents().find('body');
+          cy.wrap(iframeBody).find('button').should('have.length', 4);
         });
       });
     });

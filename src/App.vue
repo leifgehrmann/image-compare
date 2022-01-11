@@ -2,10 +2,8 @@
   <div
     v-if="optionsHaveLoaded"
     class="p-2 grid gap-2 grid-cols-1 grid-rows-2"
-    style="
-      grid-template-rows: 1fr min-content;
-      height: calc(var(--vh) - env(safe-area-inset-bottom) - env(safe-area-inset-top));
-    "
+    style="grid-template-rows: 1fr min-content;"
+    :style="{height: styleHeight}"
   >
     <div>
       <image-container
@@ -70,6 +68,21 @@ export default defineComponent({
     },
     selectedUrl(): string {
       return this.options[this.selectedIndex].url;
+    },
+    styleHeight(): string {
+      try {
+        // Detects if the window is not an iframe.
+        document.documentElement.style.setProperty(
+          '--standalone',
+          `${+(window.self === window.top)}`,
+        );
+      } catch (e) { /* Do nothing */ }
+      // Detects if the window is not an iframe.
+      return 'calc('
+          + 'var(--vh) '
+          + '- env(safe-area-inset-bottom) * var(--standalone) '
+          + '- env(safe-area-inset-top) * var(--standalone) '
+          + ')';
     },
   },
   mounted() {
