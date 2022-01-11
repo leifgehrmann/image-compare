@@ -1,11 +1,11 @@
 {
   "options": [
     {
-      "label": "Dark Variant",
+      "label": "A",
       "url": "/example/ceci-nest-pas-une-pic.png"
     },
     {
-      "label": "Light Variant",
+      "label": "B",
       "url": "/example/ceci-nest-pas-une-pic.png"
     }
   ]

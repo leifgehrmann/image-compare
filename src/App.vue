@@ -70,16 +70,19 @@ export default defineComponent({
       return this.options[this.selectedIndex].url;
     },
     styleHeight(): string {
-      // Detects if the window is an iframe.
-      const isIframe = (window !== window.parent);
-      if (isIframe) {
-        return 'calc(var(--vh))';
-      }
+      try {
+        // Detects if the window is not an iframe.
+        document.documentElement.style.setProperty(
+          '--standalone',
+          `${+(window.self === window.top)}`,
+        );
+      } catch (e) { /* Do nothing */ }
+      // Detects if the window is not an iframe.
       return 'calc('
-        + 'var(--vh) '
-        + '- env(safe-area-inset-bottom) '
-        + '- env(safe-area-inset-top)'
-        + ')';
+          + 'var(--vh) '
+          + '- env(safe-area-inset-bottom) * var(--standalone) '
+          + '- env(safe-area-inset-top) * var(--standalone) '
+          + ')';
     },
   },
   mounted() {
