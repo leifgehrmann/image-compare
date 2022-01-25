@@ -76,13 +76,13 @@ describe('image-compare', () => {
         cy.get('button').eq(1).should('have.text', 'Light Variant');
         cy.get('button span.opacity-100').should('have.length', 1);
         cy.get('button span.opacity-70').should('have.length', 3);
-        const imageUrl = getFullImagePath('example/dark.png');
+        const imageUrl = getFullImagePath('example/dark.svg');
         cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
       });
       describe('mouse events', () => {
         it('clicking the buttons will change the selection', () => {
           cy.contains('Light Variant').click();
-          const imageUrl = getFullImagePath('example/light.png');
+          const imageUrl = getFullImagePath('example/light.svg');
           cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
           cy.contains('Dark Variant').click();
         });
@@ -90,10 +90,10 @@ describe('image-compare', () => {
       describe('keyboard events', () => {
         it('pressing left/right will move the selection left/right respectively', () => {
           cy.contains('Light Variant').focus().type('{rightarrow}');
-          let imageUrl = getFullImagePath('example/light.png');
+          let imageUrl = getFullImagePath('example/light.svg');
           cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
           cy.contains('Light Variant').focus().type('{leftarrow}');
-          imageUrl = getFullImagePath('example/dark.png');
+          imageUrl = getFullImagePath('example/dark.svg');
           cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
           cy.contains('Dark Variant').click();
         });
@@ -104,7 +104,7 @@ describe('image-compare', () => {
             { x: (viewportWidth / 4) * 2.5, y: viewportHeight / 2 },
             'button:nth-child(1)',
             () => {
-              const imageUrl = getFullImagePath('example/first-republic.png');
+              const imageUrl = getFullImagePath('example/first-republic.svg');
               cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
               cy.contains('Dark Variant').click();
             },
@@ -115,7 +115,7 @@ describe('image-compare', () => {
             { x: (viewportWidth / 4) * 2.5, y: viewportHeight - 40 },
             'button:nth-of-type(2)',
             () => {
-              const imageUrl = getFullImagePath('example/first-republic.png');
+              const imageUrl = getFullImagePath('example/first-republic.svg');
               cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
               cy.contains('Dark Variant').click();
             },
@@ -126,7 +126,7 @@ describe('image-compare', () => {
             { x: viewportWidth - 5, y: viewportHeight / 2 },
             'button:nth-child(1)',
             () => {
-              const imageUrl = getFullImagePath('example/dark.png');
+              const imageUrl = getFullImagePath('example/dark.svg');
               cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
               cy.contains('Dark Variant').click();
             },
@@ -137,7 +137,7 @@ describe('image-compare', () => {
             { x: viewportWidth / 2, y: viewportHeight / 2 },
             'button:nth-child(1)',
             () => {
-              const imageUrl = getFullImagePath('example/dark.png');
+              const imageUrl = getFullImagePath('example/dark.svg');
               cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
               cy.contains('Dark Variant').click();
             },
@@ -160,7 +160,7 @@ describe('image-compare', () => {
         cy.get('button').eq(1).should('have.text', 'B');
         cy.get('button span.opacity-100').should('have.length', 1);
         cy.get('button span.opacity-70').should('have.length', 1);
-        const imageUrl = getFullImagePath('example/ceci-nest-pas-une-pic.png');
+        const imageUrl = getFullImagePath('example/ceci-nest-pas-une-pic.svg');
         cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
       });
     });
