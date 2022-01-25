@@ -9,7 +9,6 @@
       :alt="title"
       :title="title"
       class="rounded shadow-md absolute"
-      style="image-rendering: pixelated;"
       @load="onImageLoadCallback"
     >
   </div>
