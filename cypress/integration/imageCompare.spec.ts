@@ -160,7 +160,7 @@ describe('image-compare', () => {
         cy.get('button').eq(1).should('have.text', 'B');
         cy.get('button span.opacity-100').should('have.length', 1);
         cy.get('button span.opacity-70').should('have.length', 1);
-        const imageUrl = getFullImagePath('example/ceci-nest-pas-une-pic.svg');
+        const imageUrl = getFullImagePath('example/ceci-nest-pas-une-pic.png');
         cy.get(`img[src="${imageUrl}"]`).should('have.length', 1);
       });
     });
