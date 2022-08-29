@@ -3,7 +3,7 @@
     v-if="optionsHaveLoaded"
     class="p-2 grid gap-2 grid-cols-1 grid-rows-2"
     style="grid-template-rows: 1fr min-content;"
-    :style="{height: styleHeight}"
+    :style="{ height: styleHeight }"
   >
     <div>
       <image-container
