@@ -35,10 +35,10 @@
               transform
               transition-transform ease-out duration-300
             "
-            :class="{'scale-95': pressActive && mountedSelectedIndex === pressActiveIndex}"
+            :class="{ 'scale-95': pressActive && mountedSelectedIndex === pressActiveIndex }"
             :style="{
               width: optionWidth,
-              'transform-origin': `${selectedOptionTransformationOrigin} center`
+              'transform-origin': `${selectedOptionTransformationOrigin} center`,
             }"
           />
         </div>
@@ -54,7 +54,7 @@
           <div
             v-if="index > 0"
             class="select-none py-2"
-            :style="{width: gapWidth}"
+            :style="{ width: gapWidth }"
           >
             <span
               class="
@@ -70,12 +70,13 @@
                 ),
                 'opacity-0': (
                   (index - 1 === mountedSelectedIndex) || (index === mountedSelectedIndex)
-                )
+                ),
               }"
             />
           </div>
           <button
             v-if="item !== null"
+            type="button"
             class="
               py-2 rounded-lg
               overflow-hidden overflow-ellipsis
@@ -86,7 +87,7 @@
                 index === pressActiveIndex && pressActive && index === mountedSelectedIndex
               ),
             }"
-            :style="{width: optionWidth}"
+            :style="{ width: optionWidth }"
             @click="selectButtonCallback"
             @keydown.left="selectButtonToTheLeft"
             @keydown.right="selectButtonToTheRight"
