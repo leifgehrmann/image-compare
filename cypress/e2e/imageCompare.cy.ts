@@ -57,13 +57,14 @@ function touchSwipe(
   });
 }
 
+// Roughly the size of an iPhone X.
 const viewportWidth = 375;
 const viewportHeight = 800;
 
 describe('image-compare', () => {
   describe('configuration loads successfully', () => {
     beforeEach(() => {
-      cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
+      cy.viewport(viewportWidth, viewportHeight);
       const host = getHost();
       const configUrl = `${host}example/config-local.json`;
       cy.visit(getHostUrlWithConfig(configUrl));
@@ -145,10 +146,17 @@ describe('image-compare', () => {
         });
       });
     });
+    describe('landscape viewport', () => {
+      it('fits the image to the container height', () => {
+        cy.viewport(viewportHeight, viewportWidth); // Landscape
+        cy.get('img').should('have.css', 'height', '290px');
+        cy.get('img').should('have.css', 'width', '435px');
+      });
+    });
   });
   describe('configuration loads successfully with invalid images', () => {
     beforeEach(() => {
-      cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
+      cy.viewport(viewportWidth, viewportHeight);
       const host = getHost();
       const configUrl = `${host}example/config-invalid.json`;
       cy.visit(getHostUrlWithConfig(configUrl));
@@ -167,7 +175,7 @@ describe('image-compare', () => {
   });
   describe('app loads correctly in an iframe', () => {
     beforeEach(() => {
-      cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
+      cy.viewport(viewportWidth, viewportHeight);
       cy.visit(`${getHost()}example/iframe.html`);
     });
     describe('iframe loads segmented controls', () => {
@@ -181,7 +189,7 @@ describe('image-compare', () => {
   });
   describe('configuration load failures', () => {
     beforeEach(() => {
-      cy.viewport(viewportWidth, viewportHeight); // Roughly the size of an iPhone X.
+      cy.viewport(viewportWidth, viewportHeight);
       cy.visit(getHost());
     });
     it('displays a message saying the configuration could not be loaded', () => {
