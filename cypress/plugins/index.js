@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const cypressTypeScriptPreprocessor = require('./cy-ts-preprocessor');
+import cypressTypeScriptPreprocessor from './cy-ts-preprocessor';
 
 module.exports = (on, config) => {
   // eslint-disable-next-line vue/max-len
