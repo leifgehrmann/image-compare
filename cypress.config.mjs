@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/no-extraneous-dependencies
 import { defineConfig } from 'cypress';
 
 export default defineConfig({
@@ -7,7 +6,7 @@ export default defineConfig({
     setupNodeEvents(on, config) {
       // eslint-disable-next-line vue/max-len
       // eslint-disable-next-line import/extensions,@typescript-eslint/no-var-requires,global-require
-      return require('./cypress/plugins/index.js')(on, config);
+      return import('./cypress/plugins/index.js').then((self) => self(on, config));
     },
     excludeSpecPattern: '*.js',
   },
