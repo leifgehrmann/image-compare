@@ -11,29 +11,29 @@
     "test:e2e": "npx cypress run"
   },
   "dependencies": {
-    "vue": "^3.4.34"
+    "vue": "^3.5.12"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.44",
     "@cypress/webpack-preprocessor": "^6.0.2",
     "@typescript-eslint/eslint-plugin": "^7.17.0",
     "@typescript-eslint/parser": "^7.17.0",
-    "@vitejs/plugin-vue": "^5.1.1",
+    "@vitejs/plugin-vue": "^5.1.4",
     "@vue/compiler-sfc": "^3.4.34",
     "@vue/eslint-config-airbnb": "^8.0.0",
     "@vue/eslint-config-typescript": "^13.0.0",
-    "autoprefixer": "^10.4.19",
+    "autoprefixer": "^10.4.20",
     "babel-plugin-istanbul": "^7.0.0",
     "cypress": "^13.13.1",
     "eslint": "^8.57.0",
     "eslint-plugin-vue": "^9.27.0",
     "postcss": "^8.4.40",
-    "tailwindcss": "^3.4.7",
+    "tailwindcss": "^3.4.14",
     "ts-loader": "^9.5.1",
-    "typescript": "^5.5.4",
-    "vite": "^5.3.5",
+    "typescript": "^5.6.3",
+    "vite": "^5.4.10",
     "vite-plugin-istanbul": "^6.0.2",
     "vue-eslint-parser": "^9.4.3",
-    "vue-tsc": "^2.0.29"
+    "vue-tsc": "^2.1.10"
   }
 }
