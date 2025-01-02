@@ -67,12 +67,8 @@ export default defineComponent({
   },
   methods: {
     onContainerResizeCallback(entries: ResizeObserverEntry[]) {
-      const containerElement = this.$refs.container as HTMLDivElement | null;
-      if (containerElement === null) {
-        throw new Error('Invalid State: Tried to get container but it does not exist');
-      }
-      const queuedImages = containerElement.querySelectorAll('.queued-image') as NodeListOf<HTMLImageElement>;
       entries.forEach((entry) => {
+        const queuedImages = entry.target.querySelectorAll('.queued-image') as NodeListOf<HTMLImageElement>;
         queuedImages.forEach((imageElement) => {
           this.resizeImageToFitRect(entry.contentRect, imageElement);
         });
