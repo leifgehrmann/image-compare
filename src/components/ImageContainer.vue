@@ -73,7 +73,6 @@ export default defineComponent({
       }
       const queuedImages = containerElement.querySelectorAll('.queued-image') as NodeListOf<HTMLImageElement>;
       entries.forEach((entry) => {
-        this.repositionSpinner(entry.contentRect);
         queuedImages.forEach((imageElement) => {
           this.resizeImageToFitRect(entry.contentRect, imageElement);
         });
@@ -87,14 +86,6 @@ export default defineComponent({
       const imageElement = event.currentTarget as HTMLImageElement;
       this.resizeImageToFitRect(containerElement.getBoundingClientRect(), imageElement);
       this.isImageLoaded[imageElement.src ?? ''] = true;
-    },
-    repositionSpinner(rect: DOMRectReadOnly) {
-      const spinnerElement = this.$refs.spinner as HTMLDivElement | null | undefined;
-      if (spinnerElement === null || spinnerElement === undefined) {
-        return;
-      }
-      spinnerElement.style.left = `${(rect.width - spinnerElement.offsetWidth) / 2}px`;
-      spinnerElement.style.top = `${(rect.height - spinnerElement.offsetHeight) / 2}px`;
     },
     resizeImageToFitRect(rect: DOMRectReadOnly, imageElement: HTMLImageElement | null) {
       if (imageElement === null) {
