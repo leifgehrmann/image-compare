@@ -4,17 +4,34 @@
     class="h-full w-full relative"
   >
     <img
-      ref="image"
-      :src="url"
-      :alt="title"
-      :title="title"
-      class="rounded shadow-md absolute"
+      v-for="queuedUrl in queuedUrls"
+      :key="queuedUrl"
+      :src="queuedUrl"
+      :alt="url === queuedUrl ? title : ''"
+      :title="url === queuedUrl ? title : ''"
+      :aria-hidden="url !== queuedUrl"
+      style="width: 0;height: 0"
+      class="queued-image rounded shadow-md absolute"
+      :class="{
+        invisible: url !== queuedUrl,
+      }"
       @load="onImageLoadCallback"
     >
+    <div
+      v-if="!(isImageLoaded[url] ?? false)"
+      ref="spinner"
+      class="absolute"
+      style="left: calc(50% - 1.25rem / 2); top: calc(50% - 1.25rem / 2)"
+    >
+      <svg class="animate-spin h-5 w-5 text-black dark:text-white" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" stroke-width="4" d="M4 12a8 8 0 018-8" stroke-linecap="round" />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+/* eslint-disable no-param-reassign */
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -29,29 +46,59 @@ export default defineComponent({
       required: true,
     },
   },
+  data: () => ({
+    isImageLoaded: {} as Record<string, boolean>,
+    queuedUrls: [] as string[],
+  }),
+  watch: {
+    url(newUrl) {
+      if (!this.queuedUrls.includes(newUrl)) {
+        this.queuedUrls.push(newUrl);
+      }
+    },
+  },
   mounted() {
     const containerElement = this.$refs.container as HTMLDivElement | null;
     if (containerElement !== null) {
       new ResizeObserver(this.onContainerResizeCallback).observe(containerElement);
     }
+
+    this.queuedUrls.push(this.url);
   },
   methods: {
     onContainerResizeCallback(entries: ResizeObserverEntry[]) {
-      entries.forEach((entry) => {
-        this.resizeImageToFitRect(entry.contentRect);
-      });
-    },
-    onImageLoadCallback() {
       const containerElement = this.$refs.container as HTMLDivElement | null;
       if (containerElement === null) {
         throw new Error('Invalid State: Tried to get container but it does not exist');
       }
-      this.resizeImageToFitRect(containerElement.getBoundingClientRect());
+      const queuedImages = containerElement.querySelectorAll('.queued-image') as HTMLImageElement[];
+      entries.forEach((entry) => {
+        this.repositionSpinner(entry.contentRect);
+        queuedImages.forEach((imageElement) => {
+          this.resizeImageToFitRect(entry.contentRect, imageElement);
+        });
+      });
     },
-    resizeImageToFitRect(rect: DOMRectReadOnly) {
-      const imageElement = this.$refs.image as HTMLImageElement | null;
+    onImageLoadCallback(event: Event) {
+      const containerElement = this.$refs.container as HTMLDivElement | null;
+      if (containerElement === null) {
+        throw new Error('Invalid State: Tried to get container but it does not exist');
+      }
+      const imageElement = event.currentTarget as HTMLImageElement;
+      this.resizeImageToFitRect(containerElement.getBoundingClientRect(), imageElement);
+      this.isImageLoaded[imageElement.src ?? ''] = true;
+    },
+    repositionSpinner(rect: DOMRectReadOnly) {
+      const spinnerElement = this.$refs.spinner as HTMLDivElement | null | undefined;
+      if (spinnerElement === null || spinnerElement === undefined) {
+        return;
+      }
+      spinnerElement.style.left = `${(rect.width - spinnerElement.offsetWidth) / 2}px`;
+      spinnerElement.style.top = `${(rect.height - spinnerElement.offsetHeight) / 2}px`;
+    },
+    resizeImageToFitRect(rect: DOMRectReadOnly, imageElement: HTMLImageElement | null) {
       if (imageElement === null) {
-        throw new Error('Invalid State: Tried to get image but it does not exist');
+        return;
       }
 
       const imageRatio = imageElement.naturalWidth / imageElement.naturalHeight;
