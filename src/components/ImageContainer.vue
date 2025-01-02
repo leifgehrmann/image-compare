@@ -83,15 +83,12 @@ export default defineComponent({
       if (containerElement === null) {
         throw new Error('Invalid State: Tried to get container but it does not exist');
       }
+      // event.currentTarget will always be an <img> element.
       const imageElement = event.currentTarget as HTMLImageElement;
       this.resizeImageToFitRect(containerElement.getBoundingClientRect(), imageElement);
       this.isImageLoaded[imageElement.src ?? ''] = true;
     },
-    resizeImageToFitRect(rect: DOMRectReadOnly, imageElement: HTMLImageElement | null) {
-      if (imageElement === null) {
-        return;
-      }
-
+    resizeImageToFitRect(rect: DOMRectReadOnly, imageElement: HTMLImageElement) {
       const imageRatio = imageElement.naturalWidth / imageElement.naturalHeight;
       const containerRatio = rect.width / rect.height;
 
