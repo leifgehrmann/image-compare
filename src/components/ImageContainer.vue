@@ -71,7 +71,7 @@ export default defineComponent({
       if (containerElement === null) {
         throw new Error('Invalid State: Tried to get container but it does not exist');
       }
-      const queuedImages = containerElement.querySelectorAll('.queued-image') as HTMLImageElement[];
+      const queuedImages = containerElement.querySelectorAll('.queued-image') as NodeListOf<HTMLImageElement>;
       entries.forEach((entry) => {
         this.repositionSpinner(entry.contentRect);
         queuedImages.forEach((imageElement) => {
