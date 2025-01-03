@@ -34,6 +34,12 @@ http://localhost:5000/#https://example.com/path/to/config.json
 $ npm run dev
 ```
 
+Then open this URL to see an example of the app:
+
+```
+http://localhost:5173/#http://localhost:5173/example/config-local.json
+```
+
 ### Linting
 
 ```console
