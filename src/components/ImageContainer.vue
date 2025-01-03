@@ -4,17 +4,34 @@
     class="h-full w-full relative"
   >
     <img
-      ref="image"
-      :src="url"
-      :alt="title"
-      :title="title"
-      class="rounded shadow-md absolute"
+      v-for="queuedUrl in queuedUrls"
+      :key="queuedUrl"
+      :src="queuedUrl"
+      :alt="url === queuedUrl ? title : ''"
+      :title="url === queuedUrl ? title : ''"
+      :aria-hidden="url !== queuedUrl"
+      style="width: 0;height: 0"
+      class="queued-image rounded shadow-md absolute"
+      :class="{
+        invisible: url !== queuedUrl,
+      }"
       @load="onImageLoadCallback"
     >
+    <div
+      v-if="!(isImageLoaded[url] ?? false)"
+      ref="spinner"
+      class="absolute"
+      style="left: calc(50% - 1.25rem / 2); top: calc(50% - 1.25rem / 2)"
+    >
+      <svg class="animate-spin h-5 w-5 text-black dark:text-white" viewBox="0 0 24 24" fill="none">
+        <path stroke="currentColor" stroke-width="4" d="M4 12a8 8 0 018-8" stroke-linecap="round" />
+      </svg>
+    </div>
   </div>
 </template>
 
 <script lang="ts">
+/* eslint-disable no-param-reassign */
 import { defineComponent } from 'vue';
 
 export default defineComponent({
@@ -29,31 +46,45 @@ export default defineComponent({
       required: true,
     },
   },
+  data: () => ({
+    isImageLoaded: {} as Record<string, boolean>,
+    queuedUrls: [] as string[],
+  }),
+  watch: {
+    url(newUrl) {
+      if (!this.queuedUrls.includes(newUrl)) {
+        this.queuedUrls.push(newUrl);
+      }
+    },
+  },
   mounted() {
     const containerElement = this.$refs.container as HTMLDivElement | null;
     if (containerElement !== null) {
       new ResizeObserver(this.onContainerResizeCallback).observe(containerElement);
     }
+
+    this.queuedUrls.push(this.url);
   },
   methods: {
     onContainerResizeCallback(entries: ResizeObserverEntry[]) {
       entries.forEach((entry) => {
-        this.resizeImageToFitRect(entry.contentRect);
+        const queuedImages = entry.target.querySelectorAll('.queued-image') as NodeListOf<HTMLImageElement>;
+        queuedImages.forEach((imageElement) => {
+          this.resizeImageToFitRect(entry.contentRect, imageElement);
+        });
       });
     },
-    onImageLoadCallback() {
+    onImageLoadCallback(event: Event) {
       const containerElement = this.$refs.container as HTMLDivElement | null;
       if (containerElement === null) {
         throw new Error('Invalid State: Tried to get container but it does not exist');
       }
-      this.resizeImageToFitRect(containerElement.getBoundingClientRect());
+      // event.currentTarget will always be an <img> element.
+      const imageElement = event.currentTarget as HTMLImageElement;
+      this.resizeImageToFitRect(containerElement.getBoundingClientRect(), imageElement);
+      this.isImageLoaded[imageElement.src ?? ''] = true;
     },
-    resizeImageToFitRect(rect: DOMRectReadOnly) {
-      const imageElement = this.$refs.image as HTMLImageElement | null;
-      if (imageElement === null) {
-        throw new Error('Invalid State: Tried to get image but it does not exist');
-      }
-
+    resizeImageToFitRect(rect: DOMRectReadOnly, imageElement: HTMLImageElement) {
       const imageRatio = imageElement.naturalWidth / imageElement.naturalHeight;
       const containerRatio = rect.width / rect.height;
 
