@@ -62,7 +62,7 @@ export default defineComponent({
         alt: this.options[this.selectedIndex].alt ?? this.options[this.selectedIndex].label,
         sources: this.options[this.selectedIndex].sources ?? [],
         src: this.options[this.selectedIndex].src
-          ? this.options[this.selectedIndex].src
+          ? this.options[this.selectedIndex].src as string
           : this.options[this.selectedIndex].url,
       };
     },
