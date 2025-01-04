@@ -10,8 +10,7 @@
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "lib": ["es5", "dom"],
-    "types": ["cypress", "node"],
-    "allowImportingTsExtensions": true
+    "types": ["cypress", "node"]
   },
   "include": [
     "src/**/*.ts",

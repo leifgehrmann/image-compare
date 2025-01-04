@@ -36,7 +36,8 @@
 import { defineComponent } from 'vue';
 import SegmentedControl from './components/SegmentedControl.vue';
 import ImageContainer, { Picture } from './components/ImageContainer.vue';
-import { Option } from './configSchema.ts';
+// eslint-disable-next-line import/extensions,import/no-unresolved
+import { Option } from './configSchema';
 
 export default defineComponent({
   name: 'App',

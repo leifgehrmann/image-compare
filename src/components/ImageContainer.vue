@@ -44,7 +44,8 @@
 <script lang="ts">
 /* eslint-disable no-param-reassign */
 import { defineComponent } from 'vue';
-import { Source } from '../configSchema.ts';
+// eslint-disable-next-line import/extensions,import/no-unresolved
+import { Source } from '../configSchema';
 
 export interface Picture {
   title: string;
