@@ -154,6 +154,32 @@ describe('image-compare', () => {
       });
     });
   });
+  describe('configuration with multiple sources loads successfully', () => {
+    beforeEach(() => {
+      cy.viewport(viewportWidth, viewportHeight);
+      const host = getHost();
+      const configUrl = `${host}example/config-sources.json`;
+      cy.visit(getHostUrlWithConfig(configUrl), {
+        onBeforeLoad(win) {
+          cy.stub(win, 'matchMedia')
+            .withArgs('(prefers-color-scheme: dark)')
+            .returns({
+              matches: true,
+            });
+        },
+      });
+    });
+
+    describe('dark-mode image', () => {
+      it('shows a picture with a dark-mode source', () => {
+        cy.get('button').should('have.length', 2);
+        cy.get('button').eq(0).should('have.text', 'Square');
+        cy.get('button').eq(1).should('have.text', 'Circle');
+        const imageUrl = getFullImagePath('example/geometry-square-dark.svg');
+        cy.get(`sources[srcset="${imageUrl}"][media="(prefers-color-scheme: dark)"]`).should('have.length', 1);
+      });
+    });
+  });
   describe('configuration loads successfully with invalid images', () => {
     beforeEach(() => {
       cy.viewport(viewportWidth, viewportHeight);

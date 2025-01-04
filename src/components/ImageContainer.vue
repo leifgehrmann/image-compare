@@ -3,22 +3,33 @@
     ref="container"
     class="h-full w-full relative"
   >
-    <img
-      v-for="queuedUrl in queuedUrls"
-      :key="queuedUrl"
-      :src="queuedUrl"
-      :alt="url === queuedUrl ? title : ''"
-      :title="url === queuedUrl ? title : ''"
-      :aria-hidden="url !== queuedUrl"
-      style="width: 0;height: 0"
-      class="queued-image rounded shadow-md absolute"
-      :class="{
-        invisible: url !== queuedUrl,
-      }"
-      @load="onImageLoadCallback"
+    <picture
+      v-for="queuedPicture in queuedPictures"
+      :key="queuedPicture.src"
     >
+      <source
+        v-for="source in queuedPicture.sources"
+        :key="source.srcset"
+        :media="source.media"
+        :type="source.type"
+        :srcset="source.srcset"
+      />
+      <img
+        :src="queuedPicture.src"
+        :alt="picture.src === queuedPicture.src ? picture.alt : ''"
+        :title="picture.src === queuedPicture.src ? picture.title : ''"
+        :aria-hidden="picture.src !== queuedPicture.src"
+        :data-original-src="queuedPicture.src"
+        style="width: 0;height: 0"
+        class="queued-image rounded shadow-md absolute"
+        :class="{
+          invisible: picture.src !== queuedPicture.src,
+        }"
+        @load="onImageLoadCallback"
+      >
+    </picture>
     <div
-      v-if="!(isImageLoaded[url] ?? false)"
+      v-if="!(isPictureLoaded[picture.src] ?? false)"
       ref="spinner"
       class="absolute"
       style="left: calc(50% - 1.25rem / 2); top: calc(50% - 1.25rem / 2)"
@@ -33,27 +44,31 @@
 <script lang="ts">
 /* eslint-disable no-param-reassign */
 import { defineComponent } from 'vue';
+import { Source } from '../configSchema.ts';
+
+export interface Picture {
+  title: string;
+  alt: string;
+  src: string;
+  sources: Source[];
+}
 
 export default defineComponent({
   name: 'ImageContainer',
   props: {
-    url: {
-      type: String,
-      required: true,
-    },
-    title: {
-      type: String,
+    picture: {
+      type: Object as () => Picture,
       required: true,
     },
   },
   data: () => ({
-    isImageLoaded: {} as Record<string, boolean>,
-    queuedUrls: [] as string[],
+    isPictureLoaded: {} as Record<string, boolean>,
+    queuedPictures: [] as Picture[],
   }),
   watch: {
-    url(newUrl) {
-      if (!this.queuedUrls.includes(newUrl)) {
-        this.queuedUrls.push(newUrl);
+    picture(newPicture) {
+      if (!this.queuedPictures.some((obj) => obj.src === newPicture.src)) {
+        this.queuedPictures.push(newPicture);
       }
     },
   },
@@ -63,7 +78,7 @@ export default defineComponent({
       new ResizeObserver(this.onContainerResizeCallback).observe(containerElement);
     }
 
-    this.queuedUrls.push(this.url);
+    this.queuedPictures.push(this.picture);
   },
   methods: {
     onContainerResizeCallback(entries: ResizeObserverEntry[]) {
@@ -82,7 +97,7 @@ export default defineComponent({
       // event.currentTarget will always be an <img> element.
       const imageElement = event.currentTarget as HTMLImageElement;
       this.resizeImageToFitRect(containerElement.getBoundingClientRect(), imageElement);
-      this.isImageLoaded[imageElement.src ?? ''] = true;
+      this.isPictureLoaded[imageElement.dataset.originalSrc ?? ''] = true;
     },
     resizeImageToFitRect(rect: DOMRectReadOnly, imageElement: HTMLImageElement) {
       const imageRatio = imageElement.naturalWidth / imageElement.naturalHeight;
