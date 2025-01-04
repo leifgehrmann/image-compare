@@ -176,7 +176,7 @@ describe('image-compare', () => {
         cy.get('button').eq(0).should('have.text', 'Square');
         cy.get('button').eq(1).should('have.text', 'Circle');
         const imageUrl = getFullImagePath('example/geometry-square-dark.svg');
-        cy.get(`sources[srcset="${imageUrl}"][media="(prefers-color-scheme: dark)"]`).should('have.length', 1);
+        cy.get(`source[srcset="${imageUrl}"][media="(prefers-color-scheme: dark)"]`).should('have.length', 1);
       });
     });
   });
