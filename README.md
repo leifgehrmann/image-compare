@@ -28,6 +28,47 @@ For the page to load you'll need to append a URL to a config file to the URL.
 http://localhost:5000/#https://example.com/path/to/config.json
 ```
 
+## Config file schema
+
+The config file that is loaded in the URL is a JSON file that has of a list of options.  See `src/configSchema.ts` for details on the format of each option.
+
+```json
+{
+  "options": [
+    {
+      "label": "Dog",
+      "alt": "Photograph of a Labrador Retriever",
+      "src": "https://example.com/dog.png"
+    },
+    {
+      "label": "Cat",
+      "alt": "Photograph of a black cat",
+      "src": "https://example.com/cat.jpg",
+      "sources": [
+        {
+          "srcset": "https://example.com/cat.webp",
+          "type": "image/webp"
+        },
+        {
+          "srcset": "https://example.com/cat-dark.jpg",
+          "media": "(prefers-color-scheme: dark)"
+        },
+        {
+          "srcset": "https://example.com/cat-dark.webp",
+          "type": "image/webp",
+          "media": "(prefers-color-scheme: dark)"
+        }
+      ]
+    },
+    {
+      "label": "Capybara",
+      "alt": "Illustration of a capybara",
+      "src": "https://example.com/capybara.svg"
+    }
+  ]
+}
+```
+
 ## Development
 
 ```console

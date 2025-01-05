@@ -6,10 +6,7 @@
     :style="{ height: styleHeight }"
   >
     <div>
-      <image-container
-        :url="selectedUrl"
-        :title="selectedLabel"
-      />
+      <image-container :picture="selectedPicture" />
     </div>
     <div>
       <segmented-control
@@ -38,12 +35,9 @@
 <script lang="ts">
 import { defineComponent } from 'vue';
 import SegmentedControl from './components/SegmentedControl.vue';
-import ImageContainer from './components/ImageContainer.vue';
-
-export interface Option {
-  label: string;
-  url: string;
-}
+import ImageContainer, { Picture } from './components/ImageContainer.vue';
+// eslint-disable-next-line import/extensions,import/no-unresolved
+import { Option } from './configSchema';
 
 export default defineComponent({
   name: 'App',
@@ -63,11 +57,15 @@ export default defineComponent({
     labels(): string[] {
       return this.options.map((option) => option.label);
     },
-    selectedLabel(): string {
-      return this.options[this.selectedIndex].label;
-    },
-    selectedUrl(): string {
-      return this.options[this.selectedIndex].url;
+    selectedPicture(): Picture {
+      return {
+        title: this.options[this.selectedIndex].label,
+        alt: this.options[this.selectedIndex].alt ?? this.options[this.selectedIndex].label,
+        sources: this.options[this.selectedIndex].sources ?? [],
+        src: this.options[this.selectedIndex].src
+          ? this.options[this.selectedIndex].src as string
+          : this.options[this.selectedIndex].url,
+      };
     },
     styleHeight(): string {
       try {
