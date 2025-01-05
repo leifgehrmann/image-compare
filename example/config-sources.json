@@ -1,0 +1,24 @@
+{
+  "options": [
+    {
+      "label": "Square",
+      "src": "/example/geometry-square-light.svg",
+      "sources": [
+        {
+          "srcset": "/example/geometry-square-dark.svg",
+          "media": "(prefers-color-scheme: dark)"
+        }
+      ]
+    },
+    {
+      "label": "Circle",
+      "src": "/example/geometry-circle-light.svg",
+      "sources": [
+        {
+          "srcset": "/example/geometry-circle-dark.svg",
+          "media": "(prefers-color-scheme: dark)"
+        }
+      ]
+    }
+  ]
+}

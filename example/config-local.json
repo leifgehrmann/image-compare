@@ -1,0 +1,24 @@
+{
+  "options": [
+    {
+      "label": "Dark Variant",
+      "alt": "Tricolour flag, from left to right: Dark blue, White, Red.",
+      "src": "/example/dark.svg"
+    },
+    {
+      "label": "Light Variant",
+      "alt": "Tricolour flag, from left to right: Blue, White, Neon red.",
+      "url": "/example/light.svg"
+    },
+    {
+      "label": "First Republic",
+      "alt": "Tricolour flag, from left to right: Red, White, Dark blue.",
+      "src": "/example/first-republic.svg"
+    },
+    {
+      "label": "Second Republic",
+      "alt": "Tricolour flag, from left to right: Dark blue, Red, White.",
+      "src": "/example/second-republic.svg"
+    }
+  ]
+}
