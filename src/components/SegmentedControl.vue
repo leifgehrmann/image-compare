@@ -6,7 +6,7 @@
         relative
         bg-black/5 dark:bg-white/15
         rounded-xl
-        text-sm
+        text-sm leading-5
         overflow-hidden
       "
     >
