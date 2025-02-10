@@ -4,8 +4,7 @@
       class="
         p-1
         relative
-        bg-black dark:bg-white
-        bg-opacity-5 dark:bg-opacity-15
+        bg-black/5 dark:bg-white/15
         rounded-xl
         text-sm
         overflow-hidden
@@ -18,9 +17,10 @@
           class="
             transform
             transition-transform ease-out duration-300
+            translate-x-(--selected-option-position-left)
           "
           :style="{
-            '--tw-translate-x': selectedOptionPositionLeft,
+            '--selected-option-position-left': selectedOptionPositionLeft,
           }"
         >
           <div
@@ -29,7 +29,7 @@
               p-2
               absolute
               bg-white
-              dark:bg-opacity-20
+              dark:bg-white/20
               rounded-lg
               shadow-lg
               transform
@@ -79,7 +79,8 @@
             type="button"
             class="
               py-2 rounded-lg
-              overflow-hidden overflow-ellipsis
+              overflow-hidden
+              text-ellipsis
               transform transition ease-out duration-300
             "
             :class="{
