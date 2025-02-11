@@ -1,0 +1,20 @@
+{
+  "options": [
+    {
+      "label": "Dark Variant",
+      "url": "https://image-compare.leifgehrmann.com/example/dark.svg"
+    },
+    {
+      "label": "Light Variant",
+      "url": "https://image-compare.leifgehrmann.com/example/light.svg"
+    },
+    {
+      "label": "First Republic",
+      "url": "https://image-compare.leifgehrmann.com/example/first-republic.svg"
+    },
+    {
+      "label": "Second Republic",
+      "url": "https://image-compare.leifgehrmann.com/example/second-republic.svg"
+    }
+  ]
+}
