@@ -2,9 +2,12 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import istanbul from 'vite-plugin-istanbul';
+// eslint-disable-next-line import/no-unresolved
+import tailwindcss from '@tailwindcss/vite';
 
 export default defineConfig(({ mode }) => ({
   plugins: [
+    tailwindcss(),
     vue(),
     istanbul({
       include: 'src/*',

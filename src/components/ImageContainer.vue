@@ -21,7 +21,7 @@
         :aria-hidden="picture.src !== queuedPicture.src"
         :data-original-src="queuedPicture.src"
         style="width: 0;height: 0"
-        class="queued-image rounded shadow-md absolute"
+        class="queued-image rounded-sm shadow-md absolute"
         :class="{
           invisible: picture.src !== queuedPicture.src,
         }"
