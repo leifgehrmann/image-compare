@@ -81,6 +81,7 @@
               py-2 rounded-lg
               overflow-hidden
               text-ellipsis
+              cursor-pointer
               transform transition ease-out duration-300
             "
             :class="{
